@@ -70,7 +70,11 @@ class Dyd(object):
             cover_links = result['item_list'][0]['video']['origin_cover']['url_list']
             music_links = result['item_list'][0]['music']['play_url']['url_list']
             video_links = result['item_list'][0]['video']['play_addr']['url_list']
+            # 转换为无水印链接
             video_links = list(map(lambda x: x.replace('playwm', 'play', 1), video_links))
+            # 转换为1080p链接
+            video_links = list(map(lambda x: x.replace('ratio=720p', 'ratio=1080p', 1), video_links))
+            print(video_links)
             print('解析成功！')
             return Video(aweme_id, cover_links, music_links, video_links)
         except Exception as e:
@@ -86,7 +90,7 @@ if __name__ == '__main__':
     parser.add_argument('-v', '--video', action='store_true', help='download video')
     parser.add_argument('-c', '--cover', action='store_true', help='download cover')
     parser.add_argument('-m', '--music', action='store_true', help='download music')
-    parser.add_argument('-a', '--all', action='store_true', help='download video, cover and music')
+    parser.add_argument('-a', '--all', action='store_true', help='download all')
     args = parser.parse_args()
     # print(args)
 
